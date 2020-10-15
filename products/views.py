@@ -4,7 +4,8 @@ from .models import Product
 
 def home_view(request, *args, **kwargs):
     #return HttpResponse("<h1>Hello world</h1>")
-    return render(request, "home.html", {})
+    context = {"name": "Sandra"}
+    return render(request, "home.html", context)
 
 def product_detail_view(request, pk):
     try:
@@ -12,7 +13,10 @@ def product_detail_view(request, pk):
     except Product.DoesNotExist:
         raise Http404
 
-    return HttpResponse(f"Product name: {obj.title}")
+    # print(dir(request))
+
+    # return HttpResponse(f"Product name: {obj.title}")
+    return render(request, "products/detail.html", {"object": obj})
 
 def product_api_detail_view(request, pk, *args, **kwargs):
     try:
@@ -21,3 +25,10 @@ def product_api_detail_view(request, pk, *args, **kwargs):
         return JsonResponse({"message": "Not found"})
 
     return JsonResponse({"id": obj.id})
+
+def product_list_view(request, *args, **kwargs):
+    # qs = query set
+    qs = Product.objects.all()
+    context = {"object_list": qs}
+
+    return render(request, "products/list.html", context)
