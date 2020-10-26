@@ -2,9 +2,11 @@ from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render
 from .models import Product
 
-def home_view(request, *args, **kwargs):
-    #return HttpResponse("<h1>Hello world</h1>")
-    context = {"name": "Sandra"}
+def search_view(request, *args, **kwargs):
+    query = request.GET.get('q')
+    qs = Product.objects.filter(title__icontains=[0])
+    print(query, qs)
+    context = {"name": "Sandra", "query": query}
     return render(request, "home.html", context)
 
 def product_detail_view(request, pk):
@@ -12,8 +14,6 @@ def product_detail_view(request, pk):
         obj = Product.objects.get(pk=pk)
     except Product.DoesNotExist:
         raise Http404
-
-    # print(dir(request))
 
     # return HttpResponse(f"Product name: {obj.title}")
     return render(request, "products/detail.html", {"object": obj})
@@ -32,3 +32,9 @@ def product_list_view(request, *args, **kwargs):
     context = {"object_list": qs}
 
     return render(request, "products/list.html", context)
+
+def product_create_view(request, *args, **kwargs):
+    print(request.POST)
+    print(request.GET)
+    
+    return render(request, "products/forms.html", {})
