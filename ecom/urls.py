@@ -10,9 +10,9 @@ from products.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('search/', search_view),
-    path('products/', product_list_view),
-    path('products/<int:pk>/', product_detail_view),
-    re_path(r'api/products/(?P<pk>\d+)/', product_api_detail_view), 
-    path('products/create/', product_create_view),  
+    path('search/', search_view, name='search_view'),
+    path('products/', product_list_view, name='product_list_view'),
+    path('products/<int:pk>/', product_detail_view, name='product_detail_view'),
+    re_path(r'api/products/(?P<pk>\d+)/', product_api_detail_view, name='product_api_detail_view'), 
+    path('products/create/', product_create_view, name='product_create_view'),  
 ]
