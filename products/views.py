@@ -1,5 +1,6 @@
-from django.http import HttpResponse, JsonResponse, Http404
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 
 from .forms import ProductForm
 from .models import Product
@@ -41,4 +42,5 @@ def product_create_view(request, *args, **kwargs):
         print(form.cleaned_data)
         data = form.cleaned_data
         Product.objects.create(**data)
+    success_url = reverse_lazy('search_view')
     return render(request, "products/forms.html", {"form": form})
