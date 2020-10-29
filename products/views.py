@@ -1,5 +1,7 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render
+
+from .forms import ProductForm
 from .models import Product
 
 def search_view(request, *args, **kwargs):
@@ -34,7 +36,9 @@ def product_list_view(request, *args, **kwargs):
     return render(request, "products/list.html", context)
 
 def product_create_view(request, *args, **kwargs):
-    print(request.POST)
-    print(request.GET)
-    
-    return render(request, "products/forms.html", {})
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        print(form.cleaned_data)
+        data = form.cleaned_data
+        Product.objects.create(**data)
+    return render(request, "products/forms.html", {"form": form})
