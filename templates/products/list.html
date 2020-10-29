@@ -4,12 +4,14 @@ Products - {{ block.super}}
 {% endblock %}
 {% block content %}
 {% for object in object_list %}
-<div>
-    {{object.title}}
-    </br>
-    {% include "products/detail_snippet.html" with object=object %}
-</br>
-</br>
+<div class="card">
+    <div class="card-body">
+        {{object.title}}
+        </br>
+        {% include "products/detail_snippet.html" with object=object %}
+        </br>
+        </br>
+    </div>
 </div>
 {% endfor %}
 {% endblock %}

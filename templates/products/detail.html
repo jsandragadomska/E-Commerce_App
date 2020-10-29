@@ -4,15 +4,20 @@
 {% endblock %}
 
 {% block content %}
-<strong>Name: {{ object.title }}</strong>
-</br>
-</br>
-{% include "products/detail_snippet.html" with object=object %}
-</br>
-</br>
-{% if object.price %}
-Price: {{ object.price }}
-{% else %}
-Currently not available
-{% endif %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <strong>Name: {{ object.title }}</strong>
+        </br>
+        </br>
+        {% include "products/detail_snippet.html" with object=object %}
+        </br>
+        </br>
+        {% if object.price %}
+        Price: {{ object.price }}
+        {% else %}
+        Currently not available
+        {% endif %}
+    </div>
+</div>
+
 {% endblock %}

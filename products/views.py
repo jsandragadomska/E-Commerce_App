@@ -36,14 +36,9 @@ def product_list_view(request, *args, **kwargs):
     return render(request, "products/list.html", context)
 
 def product_create_view(request, *args, **kwargs):
-    #print(request.POST)
-    #print(request.GET)
-    if request.method == "POST":
-        post_data = request.POST or None
-        if post_data != None:
-            my_form = ProductForm(request.POST)
-            if my_form.is_valid():
-                title_from_input = my_form.cleaned_data.get("title")
-                Product.objects.create(title=title_from_input)
-            print("post_data", post_data)
-    return render(request, "products/forms.html", {})
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        print(form.cleaned_data)
+        data = form.cleaned_data
+        Product.objects.create(**data)
+    return render(request, "products/forms.html", {"form": form})
