@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from .forms import ProductForm
+from .forms import ProductModelForm
 from .models import Product
 
 def search_view(request, *args, **kwargs):
@@ -37,10 +37,9 @@ def product_list_view(request, *args, **kwargs):
     return render(request, "products/list.html", context)
 
 def product_create_view(request, *args, **kwargs):
-    form = ProductForm(request.POST or None)
+    form = ProductModelForm(request.POST or None)
     if form.is_valid():
-        print(form.cleaned_data)
-        data = form.cleaned_data
-        Product.objects.create(**data)
-    success_url = reverse_lazy('search_view')
+        obj = form.save(commit=False)
+        obj.save()
+        form = ProductModelForm()
     return render(request, "products/forms.html", {"form": form})
