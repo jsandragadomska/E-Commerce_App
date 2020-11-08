@@ -16,7 +16,7 @@ class ProductModelForm(forms.ModelForm):
             'title', 'content', 'price', 'amount', 'category'
         ]
 
-        widgets = {
+        widgets = {    
             'category': forms.Select(choices=choice_list, attrs={'class': 'form-control'}),
         }
     
