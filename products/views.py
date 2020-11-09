@@ -1,10 +1,18 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from .forms import ProductModelForm
 from .models import Product
+
+def home_view(request, *args, **kwargs):
+    query = request.GET.get('q')
+    qs = Product.objects.filter(title__icontains=[0])
+    print(query, qs)
+    context = {"name": "Sandra", "query": query}
+    return render(request, "home.html", context)
 
 def search_view(request, *args, **kwargs):
     query = request.GET.get('q')
@@ -37,11 +45,12 @@ def product_list_view(request, *args, **kwargs):
 
     return render(request, "products/list.html", context)
 
-@login_required
+@staff_member_required
 def product_create_view(request, *args, **kwargs):
     form = ProductModelForm(request.POST or None)
     if form.is_valid():
         obj = form.save(commit=False)
+        obj.user = request.user
         obj.save()
         form = ProductModelForm()
     return render(request, "products/forms.html", {"form": form})
