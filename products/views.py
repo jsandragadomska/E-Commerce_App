@@ -50,6 +50,7 @@ def product_create_view(request, *args, **kwargs):
     form = ProductModelForm(request.POST or None)
     if form.is_valid():
         obj = form.save(commit=False)
+        obj.user = request.user
         obj.save()
         form = ProductModelForm()
     return render(request, "products/forms.html", {"form": form})
