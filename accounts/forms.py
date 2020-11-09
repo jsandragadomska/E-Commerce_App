@@ -26,8 +26,16 @@ class  LoginForm(forms.Form):
 
 
 class RegisterForm(forms.Form):
-    username = forms.CharField()
-    email = forms.EmailField()
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+        "class": "form-control"
+        }
+    ))
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={
+        "class": "form-control"
+        }
+    ))
     password1 = forms.CharField(
         label= 'Password', 
         widget= forms.PasswordInput(
@@ -43,17 +51,17 @@ class RegisterForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
-        qs = User.objects.filter(username_iexact=username)
+        qs = User.objects.filter(username__iexact=username)
         if username in non_allowed_usernames:
             raise forms.ValidationError("You cannot use this username. Please pick another.")
-        if not qs.exists():
+        if qs.exists():
             raise forms.ValidationError("You cannot use this username. Please pick another.")
         return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        qs = User.objects.filter(email_iexact=email)
-        if not qs.exists():
+        qs = User.objects.filter(email__iexact=email)
+        if qs.exists():
             raise forms.ValidationError("There is already user with this email. Please pick another.")
         return email
 
