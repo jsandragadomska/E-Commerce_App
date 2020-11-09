@@ -1,7 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.shortcuts import render, redirect
 
 from .forms import LoginForm, RegisterForm
+
+User = get_user_model()
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -14,7 +16,7 @@ def login_view(request):
             return redirect("/search")
         else:
             request.session['invalid_user'] = 1
-    return render(request, "forms.html", {"form": form})
+    return render(request, "products/forms.html", {"form": form})
 
 def logout_view(request):
     logout(request)

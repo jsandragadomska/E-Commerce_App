@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -36,6 +37,7 @@ def product_list_view(request, *args, **kwargs):
 
     return render(request, "products/list.html", context)
 
+@login_required
 def product_create_view(request, *args, **kwargs):
     form = ProductModelForm(request.POST or None)
     if form.is_valid():

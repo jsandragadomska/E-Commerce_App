@@ -8,6 +8,11 @@
         <a class="nav-link active" href="{% url 'search_view' %}">Home <span class="sr-only">(current)</span></a>
         <a class="nav-link" href="{% url 'product_list_view' %}">Products</a>
         <a class="nav-link" href="{% url 'product_create_view' %}">New Product</a>
+        {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout_view' %}">Logout</a>
+        {% else %}
+        <a class="nav-link" href="{% url 'login_view' %}">Login</a>
+        {% endif %}
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About me</a>
       </div>
     </div>

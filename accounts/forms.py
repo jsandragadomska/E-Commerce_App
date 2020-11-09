@@ -6,7 +6,11 @@ non_allowed_usernames = ["user"]
 User = get_user_model()
 
 class  LoginForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+        "class": "form-control"
+        }
+    ))
     password = forms.CharField(
         widget = forms.PasswordInput(
             attrs={'class': 'form-control'}
@@ -15,7 +19,7 @@ class  LoginForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
-        qs = User.objects.filter(username_iexact=username)
+        qs = User.objects.filter(username__iexact=username)
         if not qs.exists():
             raise forms.ValidationError("This is an invalid username.")
         return username
