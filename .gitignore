@@ -147,3 +147,4 @@ dmypy.json
 .prof
 
 settings.py
+manage.py
