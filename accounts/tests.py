@@ -21,10 +21,11 @@ class UserTestCase(TestCase):
         self.assertEqual(user_count, 1)
 
     def test_user_password(self):
+        user_a = User.objects.get(username='cfe')
         self.assertTrue(self.user_a.check_password(self.user_a_pw))
 
 # Need to solve the problem. 
-#   def test_login_url(self):
+#    def test_login_url(self):
 #        login_url = settings.LOGIN_URL
 #        data = {'username': 'cfe', 'password': self.user_a_pw}
 #        response = self.client.post(login_url, data, follow=True)

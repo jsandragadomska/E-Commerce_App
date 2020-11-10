@@ -21,3 +21,14 @@ class ProductTestCase(TestCase):
         user_count = User.objects.all().count()
         print(user_count)
         self.assertEqual(user_count, 2)
+
+    def test_invalid_request(self):
+        self.client.login(username=self.user_b.username, password=self.user_b.password)
+        response = self.client.post("/products/create/", {"title": "this is non superuser valid test"})
+        self.assertNotEqual(response.status_code, 200)
+
+
+    def test_valid_request(self):
+        self.client.login(username=self.user_a.username, password='user1password')
+        response = self.client.post("/products/create/", {"title": "this is staff valid test"})
+        self.assertEqual(response.status_code, 200)

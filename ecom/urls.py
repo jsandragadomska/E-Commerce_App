@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, re_path
+from django.views.generic import TemplateView
 from products.views import (
     home_view,
     search_view,
@@ -15,6 +16,7 @@ from accounts.views import (
 )
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='base.html')),
     path('admin/', admin.site.urls),
     path('home/', home_view, name='home_view'),
     path('search/', search_view, name='search_view'),
