@@ -11,3 +11,6 @@ class OrderTestCase(TestCase):
         user_a.is_superuser = False
         user_a.save()
         self.user_a = user_a
+
+#    def test_create_order(self):
+#        obj = Order.objects.create(user=self.user_a, product=product_a)
