@@ -15,6 +15,10 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     amount = models.IntegerField(null=True, blank=True)
     category = models.CharField(max_length=225, default='None')
+    product_pic = models.ImageField(null=True, blank=True, upload_to="images/products/")
+
+    def has_amount(self):
+        return self.amount > 0
     
 
 class Category(models.Model):
