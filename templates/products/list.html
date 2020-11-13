@@ -6,12 +6,11 @@ Products - {{ block.super}}
 {% for object in object_list %}
 <div class="card">
     <div class="card-body">
-        {{object.title}}
+        <h2>{{object.title}}</h2>
         </br>
         {% include "products/detail_snippet.html" with object=object %}
-        </br>
-        </br>
     </div>
 </div>
+</br>
 {% endfor %}
 {% endblock %}
