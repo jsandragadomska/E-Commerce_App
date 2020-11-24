@@ -14,6 +14,9 @@ from accounts.views import (
     logout_view,
     register_view,
 )
+from orders.views import (
+    order_checkout_view,
+)
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='base.html')),
@@ -28,4 +31,7 @@ urlpatterns = [
     path('login/', login_view, name='login_view'),
     path('logout/', logout_view, name='logout_view'),
     path('register/', register_view, name='register_view'),
+
+    path('checkout/', order_checkout_view),
+
 ]

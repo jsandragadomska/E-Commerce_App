@@ -1,14 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}
 Products - {{ block.super}}
 {% endblock %}
+
 {% block content %}
 {% for object in object_list %}
-<div class="card">
-    <div class="card-body">
-        <h2>{{object.title}}</h2>
-        </br>
-        {% include "products/detail_snippet.html" with object=object %}
+<div class="card mb-3">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            {% if object.product_pic %}
+            <img src="{{ object.product_pic.url }}" class="card-img">
+            {% else %}
+            <img src="{% static 'ecom\images\products\no-image.jpg' %}" class="card-img">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h2 class="card-title">{{object.title}}</h2>
+                </br>
+                <p class="card-text">{% include "products/detail_snippet.html" with object=object %}</p>
+            </div>
+        </div>
     </div>
 </div>
 </br>
