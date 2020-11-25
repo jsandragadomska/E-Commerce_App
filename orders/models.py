@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.signals import pre_save, post_save
 from datetime import datetime, date
 
 from products.models import Product
@@ -27,3 +28,29 @@ class Order(models.Model):
     shipping_address = models.TextField(blank=True, null=True)
     billing_address = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def calculate(self, save=False):
+        if not self.product:
+            return{}
+        sub_total = self.product.price
+        tax_rate = 0.30
+        tax_total = sub_total * tax_rate
+        tax_total = float("%.2f" %(tax_total))
+        total = price + tax_total
+        total = float("%.2f" %(total))
+        totals = {
+            "subtotal": sub_total,
+            "tax": tax_total,
+            "total": total
+        }
+        for k,v in totals.items():
+            setattr(self, k, v)
+            if save == True:
+                self.save()
+        
+        return totals
+    
+def order_pre_save(sender, instance, *args, **kwargs):
+    instance.calculate(save=False)
+
+pre_save.connect(order_pre_save, sender=Order)
