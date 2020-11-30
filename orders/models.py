@@ -36,7 +36,7 @@ class Order(models.Model):
         tax_rate = 0.30
         tax_total = sub_total * tax_rate
         tax_total = float("%.2f" %(tax_total))
-        total = price + tax_total
+        total = sub_total + tax_total
         total = float("%.2f" %(total))
         totals = {
             "subtotal": sub_total,
@@ -54,3 +54,8 @@ def order_pre_save(sender, instance, *args, **kwargs):
     instance.calculate(save=False)
 
 pre_save.connect(order_pre_save, sender=Order)
+
+def order_post_save(sender, instance, *args, **kwargs):
+    instance.calculate(save=False)
+
+post_save.connect(order_post_save, sender=Order)
