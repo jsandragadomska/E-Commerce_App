@@ -55,7 +55,8 @@ def order_pre_save(sender, instance, *args, **kwargs):
 
 pre_save.connect(order_pre_save, sender=Order)
 
-def order_post_save(sender, instance, *args, **kwargs):
-    instance.calculate(save=False)
+def order_post_save(sender, instance, created, *args, **kwargs):
+    if created:
+        instance.calculate(save=True)
 
 post_save.connect(order_post_save, sender=Order)
